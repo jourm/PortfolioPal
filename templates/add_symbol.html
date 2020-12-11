@@ -7,16 +7,19 @@ Dashboard
     <form method="POST" action="/add_symbol">
         <fieldset>
             <div class="form-group row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                <label for="symbol" class="col-sm-2 col-form-label">Symbol</label>
                 <div class="col-4">
                     <input type="text" class="form-control-plaintext" id="symbol" name="symbol" value="TSLA">
                 </div>
+                <label for="amount" class="col-sm-2 col-form-label">Amount</label>
                 <div class="col-4">
                     <input type="number" class="form-control" id="amount" name="amount" value="1">
                 </div>
+                <label for="date" class="col-sm-2 col-form-label">Purchase date</label>
                 <div class="col-4">
                     <input type="date" class="form-control" id="date" name="date">
                 </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </fieldset>
     </form>
