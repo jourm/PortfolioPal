@@ -6,12 +6,6 @@ from secret import MONGO_URI
 from os import path
 
 
-stocks = [
-    ["MSFT", 10, 175],
-    ["TSLA", 2, 475],
-    ]
-
-
 
 
 app = Flask(__name__)
@@ -22,10 +16,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def home():
-    for i in range(0, len(stocks)):
-        stock = yf.Ticker(stocks[i][0])
-        price = stock.info['regularMarketPrice']
-        stocks[i].append(price)
+    stocks = mongo.db.stocks.find()
 
     return render_template('dashboard.html', stocks=stocks)
 
@@ -37,7 +28,17 @@ def add_symbol():
     elif request.method == 'POST':
         symbol = request.form['symbol']
         amount = request.form['amount']
+        category = request.form['category']
         purchase_date = request.form['purchase_date']
+        
+        new_doc = {
+            'symbol': symbol,
+            'amount': amount,
+            'category': category,
+            'purchase_date': purchase_date,
+        }
+        mongo.db.stocks.insert_one(new_doc)
+        return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP", "127.0.0.1"),

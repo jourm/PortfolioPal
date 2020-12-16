@@ -15,9 +15,21 @@ Dashboard
                 <div class="col-4">
                     <input type="number" class="form-control" id="amount" name="amount" value="1">
                 </div>
-                <label for="date" class="col-sm-2 col-form-label">Purchase date</label>
+                <label for="category" class="col-sm-2 col-form-label">Purchase date</label>
                 <div class="col-4">
-                    <input type="date" class="form-control" id="date" name="date">
+                    <select name="category" id="category">
+                        <option value="Tech">Tech</option>
+                        <option value="Realestate">Realestate</option>
+                        <option value="Materials">Materials</option>
+                        <option value="Crypto">Crypto</option>
+                        <option value="Funds">Funds</option>
+                        <option value="Currency">Currency</option>
+                        <option value="Räksallad">Räksallad</option>
+                    </select>
+                </div>
+                <label for="purchase_date" class="col-sm-2 col-form-label">Purchase date</label>
+                <div class="col-4">
+                    <input type="date" class="form-control" id="purchase_date" name="purchase_date">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

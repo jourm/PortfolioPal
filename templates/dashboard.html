@@ -3,12 +3,13 @@
 Dashboard
 {% endblock %}
 {% block content %}
-<H2>HEJ HOPP en snopp</H2>
+<H2>Investera mera :)</H2>
 <p>Ticker, Amount, Purchase price, Current Price</p>
 
 <ul>
+    
     {% for stock in stocks %}
-        <li>{{stock[0]}}, {{stock[1]}}, {{stock[2]}}, {{stock[3]}}</li>
+        <li>{{ stock['symbol'] }}</li>
     {% endfor %}
 </ul>
 {% endblock %}
