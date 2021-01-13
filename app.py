@@ -30,15 +30,31 @@ def add_symbol():
         amount = request.form['amount']
         category = request.form['category']
         purchase_date = request.form['purchase_date']
+        sell_date =
         
         new_doc = {
             'symbol': symbol,
             'amount': amount,
             'category': category,
             'purchase_date': purchase_date,
+            'sell_date': sell_date,
+            'price_history': []
         }
         mongo.db.stocks.insert_one(new_doc)
         return redirect(url_for('home'))
+
+@app.route('/update-data')
+def update_data():
+    stocks = mongo.db.stocks.find()
+    for stock in stocks:
+        symbol = yf.Ticker(stock.symbol)
+        if stock.sell_date
+            data = symbol.history(start=stock.purchase_date, end=stock.sell_date)
+            print(data)
+        else:
+            data = symbol.history(start=stock.purchase_date)
+            print(data)
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP", "127.0.0.1"),
