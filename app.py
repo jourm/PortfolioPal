@@ -4,7 +4,7 @@ import os
 from flask_pymongo import PyMongo, pymongo
 from secret import MONGO_URI
 from os import path
-
+from bson.objectid import ObjectId
 
 
 
@@ -30,14 +30,13 @@ def add_symbol():
         amount = request.form['amount']
         category = request.form['category']
         purchase_date = request.form['purchase_date']
-        sell_date =
+        
         
         new_doc = {
             'symbol': symbol,
             'amount': amount,
             'category': category,
             'purchase_date': purchase_date,
-            'sell_date': sell_date,
             'price_history': []
         }
         mongo.db.stocks.insert_one(new_doc)
@@ -47,13 +46,22 @@ def add_symbol():
 def update_data():
     stocks = mongo.db.stocks.find()
     for stock in stocks:
-        symbol = yf.Ticker(stock.symbol)
-        if stock.sell_date
-            data = symbol.history(start=stock.purchase_date, end=stock.sell_date)
-            print(data)
-        else:
-            data = symbol.history(start=stock.purchase_date)
-            print(data)
+        symbol = yf.Ticker(stock['symbol'])
+        data = symbol.history(start=stock['purchase_date'])
+        data_dict = data['Close'].to_dict()
+        price_history = []
+        for key, value in data_dict.items():
+            price_history.append([key, value])
+        print(stock)
+        new_doc = {
+            'symbol': stock['symbol'],
+            'amount': stock['amount'],
+            'category': stock['category'],
+            'purchase_date': stock['purchase_date'],
+            'price_history': price_history
+        }
+        mongo.db.stocks.replace_one({'_id':  ObjectId(stock['_id'])}, new_doc)
+
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
