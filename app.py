@@ -17,6 +17,7 @@ mongo = PyMongo(app)
 @app.route('/')
 def home():
     stocks = mongo.db.stocks.find()
+        
 
     return render_template('dashboard.html', stocks=stocks)
 
