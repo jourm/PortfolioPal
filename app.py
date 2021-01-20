@@ -17,9 +17,25 @@ mongo = PyMongo(app)
 @app.route('/')
 def home():
     stocks = mongo.db.stocks.find()
+    stonks = mongo.db.stocks.find()
+    doughnutdata = [0, 0, 0, 0, 0, 0, 0]
+    categories = ['Tech',
+                    'Realestate',
+                    'Materials',
+                    'Crypto',
+                    'Funds',
+                    'Currency',
+                    'Räksallad']  
+    for stock in stonks:
+        print(stock['category'])
+        value = int(stock['price_history'][-1][-1] * float(stock['amount']))
+        for i in range(0, len(categories)):
+            if categories[i] == stock['category']:
+                doughnutdata[i] += value
+    print (doughnutdata)
         
 
-    return render_template('dashboard.html', stocks=stocks)
+    return render_template('dashboard.html', stocks=stocks, doughnutdata=doughnutdata)
 
 @app.route('/add_symbol', methods=['GET', 'POST'])
 def add_symbol():
@@ -41,7 +57,7 @@ def add_symbol():
             'price_history': []
         }
         mongo.db.stocks.insert_one(new_doc)
-        return redirect(url_for('home'))
+        return redirect(url_for('update_data'))
 
 @app.route('/update-data')
 def update_data():
